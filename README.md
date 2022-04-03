@@ -1,4 +1,4 @@
-bastion_IP = 51.250.74.58  
+bastion_IP = 51.250.74.58
 someinternalhost_IP = 10.128.0.33
 
 # Kuzminih_infra
@@ -75,9 +75,9 @@ host someinternalhost
 ```
 ---
 ### Ссылки на доку ssh
-https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Proxies_and_Jump_Hosts  
-https://docs.rackspace.com/blog/speeding-up-ssh-session-creation/  
-VPN https://rtfm.co.ua/ssh-podklyuchenie-v-privatnuyu-set-cherez-bastion-i-nemnogo-pro-multiplexing/  
+https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Proxies_and_Jump_Hosts
+https://docs.rackspace.com/blog/speeding-up-ssh-session-creation/
+VPN https://rtfm.co.ua/ssh-podklyuchenie-v-privatnuyu-set-cherez-bastion-i-nemnogo-pro-multiplexing/
 
 ### Установка
 ```
@@ -98,8 +98,8 @@ sudo ss -tlnup
 sudo pritunl setup-key
 sudo pritunl default-password
 ```
-Подключаемся к ip адресу bastion  
-Cоздаём организацию пользователя  
-Создаём Сервер и подключаем к нему организацию  
-Скачиваем настройки из вкладки пользователи  
+Подключаемся к ip адресу bastion
+Cоздаём организацию пользователя
+Создаём Сервер и подключаем к нему организацию
+Скачиваем настройки из вкладки пользователи
 openvpn *.ovpn
