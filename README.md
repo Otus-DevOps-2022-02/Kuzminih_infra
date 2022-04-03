@@ -1,4 +1,4 @@
-bastion_IP = 51.250.74.58
+bastion_IP = 51.250.74.58  
 someinternalhost_IP = 10.128.0.33
 
 # Kuzminih_infra
@@ -13,12 +13,13 @@ Kuzminih Infra repository
 
 ### Настройка локальной ВМ с которой происходит подключение
 Генерируем ключ
-`ssh-keygen -t -f ~/.ssh/appuser -C appuser -P ""`
+```
+ssh-keygen -t -f ~/.ssh/appuser -C appuser -P ""
 [-t dsa | ecdsa | ecdsa-sk | ed25519 | ed25519-sk | rsa]
 [-f keyfile]
 [-C comment]
 [-P passphrase]
-
+```
 Проверям форвардинг
 ```
 eval `ssh-agent -s`
@@ -34,18 +35,25 @@ ssh-add -L
 ssh-add ~/.ssh/appuser
 ```
 ### Первый вариант подключения (ручной)
-`ssh -i ~/.ssh/appuser -A appuser@<ip1>`
+```
+ssh -i ~/.ssh/appuser -A appuser@<ip1>
 [-i identity_file]
 [-A Enables forwarding of connections from an authentication agent such as ssh-agent(1). This can also be specified on a per-host basis in a configuration file]
-
-`ssh <internal-ip>`
+```
+```
+ssh <internal-ip>
+```
 ---
 ### Второй вариант
-`ssh -v -i ~/.ssh/appuser -J appuser@<ip> appuser@<internal-ip>`
+```
+ssh -v -i ~/.ssh/appuser -J appuser@<ip> appuser@<internal-ip>
+```
 Указывается jumhost, через который происходит подключение к ВМ2. Без указания пользователя для ВМ2 подключение не удалось.
+```
 [-i identity_file]
 [-v Verbose mode] Для дебага.
 [-J destination]
+```
 ---
 ### Рефакторинг
 Добовляем конфиг для автоматического подключения по имени.
@@ -67,9 +75,9 @@ host someinternalhost
 ```
 ---
 ### Ссылки на доку ssh
-https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Proxies_and_Jump_Hosts
-https://docs.rackspace.com/blog/speeding-up-ssh-session-creation/
-VPN https://rtfm.co.ua/ssh-podklyuchenie-v-privatnuyu-set-cherez-bastion-i-nemnogo-pro-multiplexing/
+https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Proxies_and_Jump_Hosts  
+https://docs.rackspace.com/blog/speeding-up-ssh-session-creation/  
+VPN https://rtfm.co.ua/ssh-podklyuchenie-v-privatnuyu-set-cherez-bastion-i-nemnogo-pro-multiplexing/  
 
 ### Установка
 ```
@@ -90,3 +98,8 @@ sudo ss -tlnup
 sudo pritunl setup-key
 sudo pritunl default-password
 ```
+Подключаемся к ip адресу bastion  
+Cоздаём организацию пользователя  
+Создаём Сервер и подключаем к нему организацию  
+Скачиваем настройки из вкладки пользователи  
+openvpn *.ovpn
