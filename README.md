@@ -1,4 +1,4 @@
-bastion_IP = 51.250.74.58
+bastion_IP = 51.250.74.58  
 someinternalhost_IP = 10.128.0.33
 
 # Kuzminih_infra
