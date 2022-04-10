@@ -1,0 +1,50 @@
+#cloud-config
+disable_root: true
+timezone: Europe/Moscow
+repo_update: true
+repo_upgrade: true
+apt:
+  preserve_sources_list: true
+
+users:
+  - default
+  - name: appuser
+    groups: sudo
+    sudo: [ 'ALL=(ALL) NOPASSWD:ALL' ]
+    shell: /bin/bash
+    ssh-authorized-keys:
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC4uYRVtjsKoyHoTGt0cJt/3+IjVB4i1Xp/iOyXpnNdXsLHj1qkr4gW7ShtE0NrR5Sw+30wq4lVexQF3/iI/SVgrW8D1i+g6Uv/M64/Ygevxa3Hh99PzU68mhHrM854dXmjrubc7GAsGf/0zDE68AtKQFGZtAW0REns8hg7mb+enJ0H5wz52JZEpByx4GQRRrtGAE5Fl87/fOdZiEdH3897pruzNETnt5QBhlLmKG+jHbm3aDtyRb8FaeuB9OWCRX2epaVY9nmMSA44ftjF9QNjObUv0vd1cm5Fwju5ZjuSIh5ncg8im9HTC2FwiEfEnCur7dh8hlDr/sB5MSsIZVCfpk04tETgJbbRe5cBF2o8AOoEzRLPfk31JxU5i6l3aiRN0SFLZP66MJYJKxCx9igTPu/B8lTK3NNYateu69L+U1YMmozVqyEFliLJ/BBlEsLGWE9qozfxHYpYBybtoDeeMYPOTpa/cGc4nrrQo2QZrS5Tf0WABlLEwoJDXWV/08s= fedor@KuzminihPK2.sahalin.local"
+
+write_files:
+  - path: ~/deploy.sh
+    content: |
+      #/bin/bash
+      apt update
+      apt-get install -y git
+      git clone -b monolith https://github.com/express42/reddit.git
+      cd reddit/ && bundle install
+      puma -d
+
+  - path: ~/install_mongodb.sh
+    content: |
+      #/bin/bash
+      apt-get update
+      apt-get install -y apt-utils
+      apt-get install -y apt-transport-https ca-certificates
+      wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+      echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+      apt-get update
+      apt-get install -y mongodb-org
+      systemctl enable mongod
+      systemctl start mongod
+
+  - path: ~/install_ruby.sh
+    content: |
+      #/bin/bash
+      apt-get update
+      apt-get install -y ruby-full ruby-bundler build-essential
+
+runcmd:
+  - [ sh, ~/install_ruby.sh  ]
+  - [ sh, ~/install_mongodb.sh ]
+  - [ sh, ~/deploy.sh ]
